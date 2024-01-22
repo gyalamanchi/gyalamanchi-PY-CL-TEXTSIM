@@ -13,7 +13,8 @@ To calculate the cosine similarity between two texts, we first represent the tex
 
 Cosine Similarity is widely used in NLP and information retrieval, particularly in recommendation systems and document classification and clustering.
 """
-
+import nltk
+nltk.download('punkt')
 from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 
@@ -58,7 +59,16 @@ def sampleCosineSim():
 # Feel free to play with different text in app.py file, and see if you can find texts that are not at all similar (< .2) or very similar (> .6)!
 def cosSimExercise(corpus:list[str]):
     # TODO: Complete this function
-    return
+    vectorizer = CountVectorizer().fit_transform([corpus[0], corpus[1]]).toarray()
+    print(vectorizer)
+
+    # Calculate cosine similarity
+    cosine_sim = cosine_similarity(vectorizer[0, :], vectorizer[1, :])
+
+    # Cosine Similarity ranges from 0 to 1, a number closer to 1 means that they are more similar
+    print("Cosine Similarity:")
+    print(cosine_sim)    
+    return cosine_sim
 
     
 """
@@ -94,9 +104,21 @@ def sampleJaccard():
 # Come up with 2 texts that will result in jaccard similarity index of 0.3 or greater 
 def jaccardExercise():
     # TODO: Complete this function
-    text1 = ""
-    text2 = ""
+    text1 = "My apple fell."
+    text2 = "My apple has fallen."
 
-    jaccard_sim = None
+    # Tokenize the sentences and turn them into sets
+    set1 = set(word_tokenize(text1))
+    set2 = set(word_tokenize(text2))
+
+    jaccard_sim = jaccard_similarity(set1, set2)
 
     return jaccard_sim
+
+if __name__ == '__main__':
+    #print(jaccardExercise())
+    data = ["you are the eggman.", "The eggman you are."]
+    cosSimExercise(data)
+
+
+
